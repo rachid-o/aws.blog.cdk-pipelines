@@ -4,4 +4,4 @@ import * as cdk from '@aws-cdk/core';
 import { AwsBlogCdkPipelinesStack } from '../lib/aws.blog.cdk-pipelines-stack';
 
 const app = new cdk.App();
-new AwsBlogCdkPipelinesStack(app, 'AwsBlogCdkPipelinesStack');
+new AwsBlogCdkPipelinesStack(app, 'AwsBlogCdkPipelineStack');
