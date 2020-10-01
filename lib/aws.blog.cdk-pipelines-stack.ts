@@ -2,7 +2,20 @@ import {Repository} from "@aws-cdk/aws-codecommit";
 import {Artifact} from "@aws-cdk/aws-codepipeline";
 import {CdkPipeline, SimpleSynthAction} from "@aws-cdk/pipelines";
 import {CodeCommitSourceAction} from "@aws-cdk/aws-codepipeline-actions";
-import {Construct, Stack, StackProps} from "@aws-cdk/core";
+import {CfnOutput, Construct, Stack, StackProps, Stage, StageProps} from "@aws-cdk/core";
+import {AwsBlogLambdaStack} from "./aws.blog-lambda-stack";
+
+
+export class AwsBlogApplicationStage extends Stage {
+  public readonly urlOutput: CfnOutput;
+
+  constructor(scope: Construct, id: string, props?: StageProps) {
+    super(scope, id);
+    const lambdaStack = new AwsBlogLambdaStack(this, 'AwsBlogLambdaStack');
+    this.urlOutput = lambdaStack.urlOutput;
+  }
+}
+
 
 export class AwsBlogCdkPipelinesStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -37,7 +50,9 @@ export class AwsBlogCdkPipelinesStack extends Stack {
 
     // Here we will add the stages for the Application code later
 
-    
+    let testEnv = new AwsBlogApplicationStage(this, 'Test-env');
+    const testEnvStage = pipeline.addApplicationStage(testEnv);
+
 
   }
 }
