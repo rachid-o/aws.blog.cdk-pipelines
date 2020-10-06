@@ -1,6 +1,11 @@
+This is the end result when following this blog post: https://sharing.luminis.eu/blog/continuous-delivery-with-aws-cdk-pipelines/
+
+
+
+
 # Welcome to your CDK TypeScript project!
 
-This is a blank project for TypeScript development with CDK.
+This is a project for TypeScript development with CDK.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
