@@ -5,6 +5,7 @@ import {LambdaIntegration, RestApi} from "@aws-cdk/aws-apigateway"
 import cdk = require('@aws-cdk/core');
 import {Bucket} from "@aws-cdk/aws-s3";
 import cloudfront = require('@aws-cdk/aws-cloudfront');
+import s3deploy= require('@aws-cdk/aws-s3-deployment');
 
 export class AwsBlogLambdaStack extends Stack {
   public readonly urlOutput: CfnOutput;
@@ -81,6 +82,14 @@ export class AwsBlogLambdaStack extends Stack {
     });
     new cdk.CfnOutput(this, 'Domain name', { value: distribution.distributionDomainName });
     new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
+
+    // Deploy site contents to S3 bucket
+    new s3deploy.BucketDeployment(this, 'DeployWithInvalidation', {
+      sources: [ s3deploy.Source.asset('./site-contents') ],
+      destinationBucket: websiteBucket,
+      distribution,
+      distributionPaths: ['/*'],
+    });
 
   }
 }
