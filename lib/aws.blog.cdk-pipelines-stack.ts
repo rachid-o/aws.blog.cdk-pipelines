@@ -35,6 +35,7 @@ export class AwsBlogCdkPipelinesStack extends Stack {
       sourceAction: new CodeCommitSourceAction({
         actionName: 'CodeCommit_Source',
         repository: repo,
+        branch: 'main',
         output: sourceArtifact
       }),
 
