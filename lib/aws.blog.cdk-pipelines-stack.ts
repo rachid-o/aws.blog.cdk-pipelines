@@ -65,24 +65,24 @@ export class AwsBlogCdkPipelinesStack extends Stack {
           runOrder: testEnvStage.nextSequentialRunOrder(),
         }),
         // Add manual verification step in our pipeline
-        new ManualApprovalAction({
-          actionName: 'ManualApproval',
-          externalEntityLink: pipeline.stackOutput(testEnv.urlOutput).outputName,
-          runOrder: testEnvStage.nextSequentialRunOrder(),
-        })
+        // new ManualApprovalAction({
+        //   actionName: 'ManualApproval',
+        //   externalEntityLink: pipeline.stackOutput(testEnv.urlOutput).outputName,
+        //   runOrder: testEnvStage.nextSequentialRunOrder(),
+        // })
     );
 
-    // Deploy to the Production environment
-    let prodEnv = new AwsBlogApplicationStage(this, 'Prod-env');
-    const prodStage = pipeline.addApplicationStage(prodEnv);
-    // Extra check to be sure that the deployment to Prod was successful
-    prodStage.addActions(new ShellScriptAction({
-      actionName: 'SmokeTest',
-      useOutputs: {
-        ENDPOINT_URL: pipeline.stackOutput(prodEnv.urlOutput),
-      },
-      commands: ['curl -Ssf $ENDPOINT_URL'],
-    }));
+    // // Deploy to the Production environment
+    // let prodEnv = new AwsBlogApplicationStage(this, 'Prod-env');
+    // const prodStage = pipeline.addApplicationStage(prodEnv);
+    // // Extra check to be sure that the deployment to Prod was successful
+    // prodStage.addActions(new ShellScriptAction({
+    //   actionName: 'SmokeTest',
+    //   useOutputs: {
+    //     ENDPOINT_URL: pipeline.stackOutput(prodEnv.urlOutput),
+    //   },
+    //   commands: ['curl -Ssf $ENDPOINT_URL'],
+    // }));
 
   }
 }
